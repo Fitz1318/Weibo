@@ -6,7 +6,7 @@ from weibo.items import *
 
 
 class WeiboSpider(Spider):
-    name = 'weibocn'
+    name = 'weibo'
     
     allowed_domains = ['m.weibo.cn']
     
@@ -18,10 +18,10 @@ class WeiboSpider(Spider):
     
     weibo_url = 'https://m.weibo.cn/api/container/getIndex?uid={uid}&type=uid&page={page}&containerid=107603{uid}'
 
-    start_users = 3217179555
+    start_user = 3217179555
     
     def start_requests(self):
-        yield Request(self.user_url.format(uid=self.start_users), callback=self.parse_user)
+        yield Request(self.user_url.format(uid=self.start_user), callback=self.parse_user)
     
     def parse_user(self, response):
         """
@@ -34,7 +34,7 @@ class WeiboSpider(Spider):
             user_info = result.get('data').get('userInfo')
             user_item = UserItem()
             field_map = {
-                'id': 'id', 'name': 'screen_name', 'avatar': 'profile_image_url', 'cover': 'cover_image_phone',
+                'id': 'id', 'name': 'screen_name', 'url': 'profile_url', 'avatar': 'profile_image_url', 'cover': 'cover_image_phone',
                 'gender': 'gender', 'description': 'description', 'fans_count': 'followers_count',
                 'follows_count': 'follow_count', 'weibos_count': 'statuses_count', 'verified': 'verified',
                 'verified_reason': 'verified_reason', 'verified_type': 'verified_type'
@@ -127,7 +127,7 @@ class WeiboSpider(Spider):
                         'id': 'id', 'attitudes_count': 'attitudes_count', 'comments_count': 'comments_count',
                         'reposts_count': 'reposts_count', 'picture': 'original_pic', 'pictures': 'pics',
                         'created_at': 'created_at', 'source': 'source', 'text': 'text', 'raw_text': 'raw_text',
-                        'thumbnail': 'thumbnail_pic',
+                        'textLength': 'textLength',
                     }
                     for field, attr in field_map.items():
                         weibo_item[field] = mblog.get(attr)

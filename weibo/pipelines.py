@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
+import re
+import time
 
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-import re, time
-
-import logging
 import pymongo
 
 from weibo.items import *
