@@ -1,5 +1,7 @@
 import json
+
 from scrapy import Request, Spider
+
 from weibo.items import *
 
 
@@ -15,12 +17,11 @@ class WeiboSpider(Spider):
     fan_url = 'https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_{uid}&page={page}'
     
     weibo_url = 'https://m.weibo.cn/api/container/getIndex?uid={uid}&type=uid&page={page}&containerid=107603{uid}'
-    
-    start_users = ['3217179555', '1742566624', '2282991915', '1288739185', '3952070245', '5878659096']
+
+    start_users = 3217179555
     
     def start_requests(self):
-        for uid in self.start_users:
-            yield Request(self.user_url.format(uid=uid), callback=self.parse_user)
+        yield Request(self.user_url.format(uid=self.start_users), callback=self.parse_user)
     
     def parse_user(self, response):
         """
