@@ -1,4 +1,5 @@
-from scrapy import Item, Field
+from scrapy import Field
+from scrapy import Item
 
 
 class UserItem(Item):

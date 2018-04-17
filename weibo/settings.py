@@ -12,6 +12,7 @@ DEFAULT_REQUEST_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
     'X-Requested-With': 'XMLHttpRequest',
 }
+
 CONCURRENT_REQUESTS = 64  # 最大并发数
 DOWNLOAD_DELAY = 0.1  # 下载延迟，单位是秒
 # The download delay setting will honor only one of:

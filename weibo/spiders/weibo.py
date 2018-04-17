@@ -2,7 +2,6 @@ import json
 import re
 
 from scrapy import Request, Spider
-
 from weibo.items import *
 
 
@@ -46,7 +45,7 @@ class WeiboSpider(Spider):
             # 关注
             # 使用正则匹配过滤掉
             # uid=1022:100808e4ce58deae132199baf91c96cfc0b608
-            # 等格式的问题
+            # 等格式的问题。
             uids = user_info.get('id')
             match_obj = re.match("1022:.*", str(uids))
             if match_obj:

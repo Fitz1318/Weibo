@@ -2,7 +2,6 @@ import re
 import time
 
 import pymongo
-
 from weibo.items import *
 
 

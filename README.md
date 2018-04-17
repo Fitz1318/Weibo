@@ -8,4 +8,4 @@ Python3环境下使用scrapy爬取新浪微博用户信息和微博信息，并�
                 之前对于昨天发表的微博的时间一直不正确
               ④使用Github上的fake_useragent，替代之前少量的User-Agent
               ⑤增加了代码说明，方便阅读
-              ⑥设置DOWNLOAD_DELAY = 0.5时是不会封号的，但是效率差点
+              ⑥设置DOWNLOAD_DELAY = 0.5时是不会封号的，但是效率差点。
