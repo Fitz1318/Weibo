@@ -32,7 +32,7 @@ class UserRelationItem(Item):
 
 class WeiboItem(Item):
     collection = 'weibos'
-    
+
     id = Field()
     attitudes_count = Field()  # 点赞数
     comments_count = Field()  # 评论数
@@ -44,6 +44,7 @@ class WeiboItem(Item):
     raw_text = Field()  # 转发时的添加内容
     textLength = Field()  # 微博长度
     user = Field()  # 作者
+    weibo_url = Field()
     created_at = Field()  # 微博创建时间
     crawled_at = Field()  # 微博爬取时间
 

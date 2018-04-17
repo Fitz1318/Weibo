@@ -1,4 +1,5 @@
 import json
+import re
 
 from scrapy import Request, Spider
 
@@ -43,7 +44,15 @@ class WeiboSpider(Spider):
                 user_item[field] = user_info.get(attr)
             yield user_item
             # 关注
-            uid = user_info.get('id')
+            # 使用正则匹配过滤掉
+            # uid=1022:100808e4ce58deae132199baf91c96cfc0b608
+            # 等格式的问题
+            uids = user_info.get('id')
+            match_obj = re.match("1022:.*", str(uids))
+            if match_obj:
+                return
+            else:
+                uid = uids
             yield Request(self.follow_url.format(uid=uid, page=1), callback=self.parse_follows,
                           meta={'page': 1, 'uid': uid})
             # 粉丝
@@ -65,10 +74,23 @@ class WeiboSpider(Spider):
             follows = result.get('data').get('cards')[-1].get('card_group')
             for follow in follows:
                 if follow.get('user'):
-                    uid = follow.get('user').get('id')
+                    #使用正则匹配过滤掉
+                    #uid=1022:100808e4ce58deae132199baf91c96cfc0b608
+                    #等格式的问题
+                    uids = follow.get('user').get('id')
+                    match_obj = re.match("1022:.*", str(uids))
+                    if match_obj:
+                        return
+                    else:
+                        uid = uids
                     yield Request(self.user_url.format(uid=uid), callback=self.parse_user)
             
-            uid = response.meta.get('uid')
+            uids = response.meta.get('uid')
+            match_obj = re.match("1022:.*", str(uids))
+            if match_obj:
+                return
+            else:
+                uid = uids
             # 关注列表
             user_relation_item = UserRelationItem()
             follows = [{'id': follow.get('user').get('id'), 'name': follow.get('user').get('screen_name')} for follow in
@@ -96,8 +118,15 @@ class WeiboSpider(Spider):
                 if fan.get('user'):
                     uid = fan.get('user').get('id')
                     yield Request(self.user_url.format(uid=uid), callback=self.parse_user)
-            
-            uid = response.meta.get('uid')
+            # 使用正则匹配过滤掉
+            # uid=1022:100808e4ce58deae132199baf91c96cfc0b608
+            # 等格式的问题
+            uids = response.meta.get('uid')
+            match_obj = re.match("1022:.*", str(uids))
+            if match_obj:
+                return
+            else:
+                uid = uids
             # 粉丝列表
             user_relation_item = UserRelationItem()
             fans = [{'id': fan.get('user').get('id'), 'name': fan.get('user').get('screen_name')} for fan in
@@ -123,6 +152,8 @@ class WeiboSpider(Spider):
                 mblog = weibo.get('mblog')
                 if mblog:
                     weibo_item = WeiboItem()
+                    # weiboitem = WeiboItem()
+                    # weiboitem["weibo_url"] = weibos["scheme"]
                     field_map = {
                         'id': 'id', 'attitudes_count': 'attitudes_count', 'comments_count': 'comments_count',
                         'reposts_count': 'reposts_count', 'picture': 'original_pic', 'pictures': 'pics',
@@ -134,7 +165,15 @@ class WeiboSpider(Spider):
                     weibo_item['user'] = response.meta.get('uid')
                     yield weibo_item
             # 下一页微博
-            uid = response.meta.get('uid')
+            # 使用正则匹配过滤掉
+            # uid=1022:100808e4ce58deae132199baf91c96cfc0b608
+            # 等格式的问题
+            uids = response.meta.get('uid')
+            match_obj = re.match("1022:.*", str(uids))
+            if match_obj:
+                return
+            else:
+                uid = uids
             page = response.meta.get('page') + 1
             yield Request(self.weibo_url.format(uid=uid, page=page), callback=self.parse_weibos,
                           meta={'uid': uid, 'page': page})
